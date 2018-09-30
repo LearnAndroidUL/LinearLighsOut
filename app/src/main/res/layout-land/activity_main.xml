@@ -82,6 +82,15 @@
             android:onClick="pressedBoardButton"
             android:textSize="16sp" />
 
+        <Button
+            android:id="@+id/new_game_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/board"
+            android:layout_alignRight="@id/board"
+            android:onClick="pressedNewGame"
+            android:text="@string/new_game" />
+
     </LinearLayout>
 
     <TextView
@@ -95,12 +104,4 @@
         android:textColor="@color/textColor"
         android:textSize="24sp" />
 
-    <Button
-        android:id="@+id/new_game_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/board"
-        android:layout_alignRight="@id/board"
-        android:onClick="pressedNewGame"
-        android:text="@string/new_game" />
 </RelativeLayout>

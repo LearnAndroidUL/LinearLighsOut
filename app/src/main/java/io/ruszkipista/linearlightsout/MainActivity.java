@@ -7,18 +7,33 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+
 public class MainActivity extends AppCompatActivity {
 
     private LightsOutGame mGame;
-    int numButtons = 10;
+    int numButtons = 7;
     TextView mGameStateTextView;
     Button[] mButtons = new Button[numButtons];
+    final String GAME_STATE_KEY = "GAME_STATE_KEY";
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString(GAME_STATE_KEY, mGame.toString());
+        outState.putInt(GAME_STATE_KEY, mGame.getNumPresses());
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mGame = new LightsOutGame(numButtons);
+        if (savedInstanceState != null){
+            Toast.makeText(this, "Presses"+savedInstanceState.getInt(GAME_STATE_KEY), Toast.LENGTH_SHORT);
+            mGame.setNumPresses(savedInstanceState.getInt(GAME_STATE_KEY));
+        }
         mGameStateTextView = findViewById(R.id.game_state_text_view);
         mButtons[0] = findViewById(R.id.button0);
         mButtons[1] = findViewById(R.id.button1);
@@ -27,17 +42,33 @@ public class MainActivity extends AppCompatActivity {
         mButtons[4] = findViewById(R.id.button4);
         mButtons[5] = findViewById(R.id.button5);
         mButtons[6] = findViewById(R.id.button6);
-        mButtons[7] = findViewById(R.id.button7);
-        mButtons[8] = findViewById(R.id.button8);
-        mButtons[9] = findViewById(R.id.button9);
-        updateView();
+        updateButtons();
     }
 
     private void updateView() {
-        mGameStateTextView.setText(getString(R.string.n_presses,mGame.getNumPresses()));
-        Toast.makeText(this, "State: " + mGame.getValueAtIndex(0), Toast.LENGTH_SHORT).show();
-        for (int i=0;i<mButtons.length;i++){
+        int numPresses = mGame.getNumPresses();
+        if (mGame.checkForWin()) {
+            mGameStateTextView.setText(getString(R.string.complete, mGame.getNumPresses()));
+            enableButtons(FALSE);
+        } else if (numPresses <= 0 ) {
+            mGameStateTextView.setText(getString(R.string.start));
+        } else if (numPresses == 1 ) {
+            mGameStateTextView.setText(getString(R.string.n_press, numPresses));
+        } else {
+            mGameStateTextView.setText(getString(R.string.n_presses, numPresses));
+        }
+        updateButtons();
+    }
+
+    private void updateButtons(){
+        for (int i = 0; i < mButtons.length; i++) {
             mButtons[i].setText(Integer.toString(mGame.getValueAtIndex(i)));
+        }
+    }
+
+    private void enableButtons(boolean yesNo){
+        for (int i = 0; i < mButtons.length; i++) {
+            mButtons[i].setEnabled(yesNo);
         }
     }
 
@@ -49,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void pressedNewGame(View view) {
         mGame = new LightsOutGame(numButtons);
-        updateView();
+        enableButtons(TRUE);
+        updateButtons();
     }
 }

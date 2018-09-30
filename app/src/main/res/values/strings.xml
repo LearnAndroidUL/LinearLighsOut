@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Linear Lights Out</string>
     <string name="new_game">New Game</string>
-    <string name="n_presses">%d presses</string>
+    <string name="start">Make the buttons match</string>
+    <string name="n_press">You have taken %d turn</string>
+    <string name="n_presses">You have taken %d turns</string>
+    <string name="complete">You won in %d turns</string>
 </resources>
