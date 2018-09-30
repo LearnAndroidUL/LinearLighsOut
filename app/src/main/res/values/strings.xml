@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Linear Lights Out</string>
+    <string name="new_game">New Game</string>
+    <string name="n_presses">%d presses</string>
+</resources>
