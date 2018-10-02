@@ -2,7 +2,6 @@ package io.ruszkipista.linearlightsout;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,11 +20,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt(GAME_STATE_KEY+"I", mGame.getNumPresses());
-        Log.i("LightsOut","EXP Button presses:"+mGame.getNumPresses());
+//        Log.i("LightsOut","EXP Button presses:"+mGame.getNumPresses());
         outState.putBoolean(GAME_STATE_KEY+"B", !mGame.checkForWin());
-        Log.i("LightsOut","EXP Buttons enabled:"+Boolean.toString(!mGame.checkForWin()));
+//        Log.i("LightsOut","EXP Buttons enabled:"+Boolean.toString(!mGame.checkForWin()));
         outState.putString(GAME_STATE_KEY+"S", mGame.toString());
-        Log.i("LightsOut","EXP Button state string:"+mGame.toString());
+//        Log.i("LightsOut","EXP Button state string:"+mGame.toString());
         super.onSaveInstanceState(outState);
     }
 
@@ -47,13 +46,13 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             int numPresses = savedInstanceState.getInt(GAME_STATE_KEY+"I");
             mGame.setNumPresses(numPresses);
-            Log.i("LightsOut","IMP Button presses:"+Integer.toString(numPresses));
+//            Log.i("LightsOut","IMP Button presses:"+Integer.toString(numPresses));
             boolean buttonsEnabled = savedInstanceState.getBoolean(GAME_STATE_KEY+"B");
             enableButtons(buttonsEnabled);
-            Log.i("LightsOut","IMP Buttons enabled:"+Boolean.toString(buttonsEnabled));
+//            Log.i("LightsOut","IMP Buttons enabled:"+Boolean.toString(buttonsEnabled));
             int[] buttonsState = new int[numButtons];
             String buttonStateStr = savedInstanceState.getString(GAME_STATE_KEY+"S");
-            Log.i("LightsOut","IMP Button state string:"+buttonStateStr);
+//            Log.i("LightsOut","IMP Button state string:"+buttonStateStr);
             for (int i = 0; i < buttonsState.length; i++) {
                 if (buttonStateStr.charAt(i) == '1') buttonsState[i] = 1;
             }
@@ -102,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void pressedNewGame(View view) {
         mGame = new LightsOutGame(numButtons);
+        updateGameStateText();
         enableButtons(TRUE);
         updateButtons();
     }
